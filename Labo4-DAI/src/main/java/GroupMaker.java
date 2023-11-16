@@ -25,20 +25,20 @@ public class GroupMaker {
             curGrpSize = round(avgGrpSize);
 
             for(int j = 0; j < curGrpSize; ++j){
-                result.get(i).add(addresses.get(curIndex));
+                result.get(i).add(addresses.get(curIndex)); //remplir le groupe courant
                 ++curIndex;
             }
         }
         return result;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args){ //Programme de test de groupage simple
         List<String> testArrayList = new ArrayList<>();
         for(int i=0; i<20; i++){
             testArrayList.add("Person" + Integer.toString(i) + "@gmail.com");
         }
 
-        List<List<String>> testGrp = group(testArrayList, 5);
+        List<List<String>> testGrp = group(testArrayList, 4);
 
         for(List<String> i : testGrp){
             System.out.println(i);
