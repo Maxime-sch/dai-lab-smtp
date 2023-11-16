@@ -11,10 +11,12 @@ The first address of the group is the sender, the others are the receivers (vict
 For each group, the program selects one of the e-mail messages.\
 The respective messages are then sent to the different groups using the SMTP protocol.\
 
-### VictimsReader ###
+### CSVReader ###
+
+#### VictimsReader ####
 Provides a method to parse a csv file and return an array of email addresses and to handle invalid inputs.
 
-### MessagesListReader ###
+#### MessagesListReader ####
 Provides a method to parse a csv file and return an array of subjects and an array of bodies for the prank e-mails to
 send as well as handle invalid inputs.
 
@@ -22,6 +24,6 @@ send as well as handle invalid inputs.
 Provides a method to group an array of e-mail addresses into n groups of 2-5 people, and to handle situations where 
 n is too big or too small.
 
-### SmtpSender ###
+### SmtpClient ###
 Provides a method to send a message which appears to be sent by a specific email address, to defined email addresses
 using SMTP.
