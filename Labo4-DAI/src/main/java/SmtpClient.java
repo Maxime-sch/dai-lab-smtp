@@ -8,17 +8,13 @@ public class SmtpClient {
 // Constants
 // Project specific settings
         final String SERVER_ADDRESS = "localhost";
-        final int PORT = 2525;
-        final String DOMAIN = "dai.ch";
-        final String EMAIL_ADDRESS = "te1@dai.ch";
+        final int PORT = 1080;
+        final String DOMAIN = "heig-vd.ch";
         final Charset CHARSET = StandardCharsets.UTF_8;
-// Tested the server, even when giving it another charset at start (ex : `-Dfile.encoding=UTF-16`) it still
-// only understood UTF-8, so I take it only accepts it
 // Messages
-        final String INITAL_MESSAGE = "EHLO ";
+        final String OPEN = ("OPEN mail01.heig-vd.ch.");
+        final String INITAL_MESSAGE = "ehlo ";
         final String INITAL_ANSWER = "250 HELP";
-        final String MAIL_FROM = "MAIL FROM:";
-    // Variables
 // Set to null to allow for better error handling
     Socket socket = null;
     BufferedReader reader = null;
@@ -29,15 +25,36 @@ public class SmtpClient {
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), CHARSET));
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), CHARSET));
     // Initial negotiation
+        writer.write(OPEN + "\r\n");
+        System.out.println(OPEN + "\r\n");
+        writer.flush();
             writer.write(INITAL_MESSAGE + DOMAIN + "\r\n");
+            System.out.println(INITAL_MESSAGE + DOMAIN + "\r\n");
             writer.flush();
     // Ignores everything until INITIAL_ANSWER
     // TODO in an actual client : correctly read that
             String line;
             while ((line = reader.readLine()) != null && !line.equals(INITAL_ANSWER));
     // FROM :
-            writer.write(MAIL_FROM + "<" + EMAIL_ADDRESS + ">\r\n");
+        String emailAddress = "maxsch@heig-vd.ch";
+
+        String message = "mail from:<" + emailAddress + ">\n" +
+                    "rcpt to: <" + emailAddress + ">\n" +
+                    "data\n" +
+                    "From: <" + emailAddress + ">\n" +
+                    "To: <" + emailAddress + ">\n" +
+                    "Date: April 1st, 2023\n" +
+                    "Subject: inshallah ça marche\n\n" +
+                    "blablabla\n\n";
+        String QUIT = ("quit"  + "\r\n");
+
+            writer.write("");
+            writer.write(message + "\r\n");
+            System.out.print(message);
             writer.flush();
+            //if(250 OK)
+            writer.write(QUIT);
+            System.out.print(QUIT);
     // End
             socket.close();
             writer.close();
