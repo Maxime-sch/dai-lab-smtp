@@ -8,11 +8,10 @@ public class SmtpClient {
 // Constants
 // Project specific settings
         final String SERVER_ADDRESS = "localhost";
-        final int PORT = 1080;
-        final String DOMAIN = "heig-vd.ch";
+        final int PORT = 1025;
+        final String DOMAIN = "localhost";
         final Charset CHARSET = StandardCharsets.UTF_8;
 // Messages
-        final String OPEN = ("OPEN mail01.heig-vd.ch.");
         final String INITAL_MESSAGE = "ehlo ";
         final String INITAL_ANSWER = "250 HELP";
 // Set to null to allow for better error handling
@@ -24,21 +23,16 @@ public class SmtpClient {
             socket = new Socket(SERVER_ADDRESS, PORT);
             writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), CHARSET));
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), CHARSET));
-    // Initial negotiation
-        writer.write(OPEN + "\r\n");
-        System.out.println(OPEN + "\r\n");
-        writer.flush();
-            writer.write(INITAL_MESSAGE + DOMAIN + "\r\n");
-            System.out.println(INITAL_MESSAGE + DOMAIN + "\r\n");
-            writer.flush();
-    // Ignores everything until INITIAL_ANSWER
-    // TODO in an actual client : correctly read that
-            String line;
-            while ((line = reader.readLine()) != null && !line.equals(INITAL_ANSWER));
-    // FROM :
-        String emailAddress = "maxsch@heig-vd.ch";
 
-        String message = "mail from:<" + emailAddress + ">\n" +
+        // Ignores everything until INITIAL_ANSWER
+            //String line;
+            //while ((line = reader.readLine()) != null && !line.equals(INITAL_ANSWER));
+
+        String emailAddress = "maxsch@localhost";
+
+        String message = "telnet " + DOMAIN + " " + PORT + "\n" +
+                    INITAL_MESSAGE + DOMAIN + "\r\n" +
+                    "mail from:<" + emailAddress + ">\n" +
                     "rcpt to: <" + emailAddress + ">\n" +
                     "data\n" +
                     "From: <" + emailAddress + ">\n" +
@@ -46,12 +40,17 @@ public class SmtpClient {
                     "Date: April 1st, 2023\n" +
                     "Subject: inshallah ça marche\n\n" +
                     "blablabla\n\n";
-        String QUIT = ("quit"  + "\r\n");
+        String[] lines = message.split("\r\n|\r|\n");
+        int nblines = lines.length;
 
-            writer.write("");
-            writer.write(message + "\r\n");
-            System.out.print(message);
+        for(int i = 0; i < nblines; ++i){
+            System.out.println("Sent to server: " + lines[i]);
+            writer.write(lines[i] + "\n");
             writer.flush();
+            System.out.println("Echo: " + reader.readLine());
+        }
+
+        String QUIT = ("quit"  + "\r\n");
             //if(250 OK)
             writer.write(QUIT);
             System.out.print(QUIT);
