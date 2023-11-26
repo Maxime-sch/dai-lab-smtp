@@ -2,9 +2,11 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class SmtpClient {
-    public static void main(String[] args) throws IOException {
+    public static void sendEmail(String sendingAddress, String displayedSendingAddress, List<String> recipients,
+                                 String subject, String message){
 
         // Constants
         final String SERVER_ADDRESS = "localhost";
@@ -22,9 +24,9 @@ public class SmtpClient {
         writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), CHARSET));
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), CHARSET));
 
-        String fromAddress = "from@mail.com";
-        String toAddress = "to@mail.com";
-        String fromDisplayedAddress = "fromDisplay@mail.com";
+        String fromAddress = sendingAddress;
+        String toAddress = recipients.get(0);
+        String fromDisplayedAddress = displayedSendingAddress;
 
         // Read the server's welcome message
         System.out.println("Server: " + reader.readLine());
@@ -53,9 +55,9 @@ public class SmtpClient {
         sendCommand(writer, "From: <" + fromDisplayedAddress + ">");
         sendCommand(writer, "To: <" + toAddress + ">");
         sendCommand(writer, "Date: April 1st, 2023");
-        sendCommand(writer, "Subject: inshallah ça marche");
+        sendCommand(writer, "Subject: " + subject);
         sendCommand(writer, ""); // Empty line indicates the start of the email body
-        sendCommand(writer, "blablabla");
+        sendCommand(writer, message);
 
         // Send the end of email marker
         sendCommand(writer, ".");
