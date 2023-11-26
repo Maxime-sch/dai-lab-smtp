@@ -5,65 +5,76 @@ import java.nio.charset.StandardCharsets;
 
 public class SmtpClient {
     public static void main(String[] args) throws IOException {
-// Constants
-// Project specific settings
+
+        // Constants
         final String SERVER_ADDRESS = "localhost";
         final int PORT = 1025;
         final String DOMAIN = "localhost";
         final Charset CHARSET = StandardCharsets.UTF_8;
-// Messages
         final String INITAL_MESSAGE = "ehlo ";
-        final String INITAL_ANSWER = "250 HELP";
-// Set to null to allow for better error handling
-    Socket socket = null;
-    BufferedReader reader = null;
-    BufferedWriter writer = null;
+        // Set to null to allow for better error handling
+        Socket socket = null;
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
+
     try {
-    // Sockets
-            socket = new Socket(SERVER_ADDRESS, PORT);
-            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), CHARSET));
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), CHARSET));
+        socket = new Socket(SERVER_ADDRESS, PORT);
+        writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), CHARSET));
+        reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), CHARSET));
 
-        // Ignores everything until INITIAL_ANSWER
-            //String line;
-            //while ((line = reader.readLine()) != null && !line.equals(INITAL_ANSWER));
+        String fromAddress = "from@mail.com";
+        String toAddress = "to@mail.com";
+        String fromDisplayedAddress = "fromDisplay@mail.com";
 
-        String emailAddress = "maxsch@localhost";
+        // Read the server's welcome message
+        System.out.println("Server: " + reader.readLine());
 
-        String message = "telnet " + DOMAIN + " " + PORT + "\n" +
-                    INITAL_MESSAGE + DOMAIN + "\r\n" +
-                    "mail from:<" + emailAddress + ">\n" +
-                    "rcpt to: <" + emailAddress + ">\n" +
-                    "data\n" +
-                    "From: <" + emailAddress + ">\n" +
-                    "To: <" + emailAddress + ">\n" +
-                    "Date: April 1st, 2023\n" +
-                    "Subject: inshallah ça marche\n\n" +
-                    "blablabla\n\n";
-        String[] lines = message.split("\r\n|\r|\n");
-        int nblines = lines.length;
+        // Send EHLO command
+        sendCommand(writer, INITAL_MESSAGE + DOMAIN);
+        // Read and print the response
+        System.out.println("Server: " + reader.readLine());
 
-        for(int i = 0; i < nblines; ++i){
-            System.out.println("Sent to server: " + lines[i]);
-            writer.write(lines[i] + "\n");
-            writer.flush();
-            System.out.println("Echo: " + reader.readLine());
-        }
+        // Send MAIL FROM command
+        sendCommand(writer, "MAIL FROM:<" + fromAddress + ">");
+        // Read and print the response
+        System.out.println("Server: " + reader.readLine());
 
-        String QUIT = ("quit"  + "\r\n");
-            //if(250 OK)
-            writer.write(QUIT);
-            System.out.print(QUIT);
-    // End
-            socket.close();
-            writer.close();
-            reader.close();
-            System.out.println("Done !\r\n");
-        }
-    // Error handling : Try to close everything that was initialised
-    // Uses the code example provided in our course, as I cannot see any better way of doing it
-    // (Except maybe keeping the logger instead of those println)
-            catch (IOException ex) {
+        // Send RCPT TO command
+        sendCommand(writer, "RCPT TO:<" + toAddress + ">");
+        // Read and print the response
+        System.out.println("Server: " + reader.readLine());
+
+        // Send DATA command
+        sendCommand(writer, "DATA");
+        // Read and print the response
+        System.out.println("Server: " + reader.readLine());
+
+        // Send the email content
+        sendCommand(writer, "From: <" + fromDisplayedAddress + ">");
+        sendCommand(writer, "To: <" + toAddress + ">");
+        sendCommand(writer, "Date: April 1st, 2023");
+        sendCommand(writer, "Subject: inshallah ça marche");
+        sendCommand(writer, ""); // Empty line indicates the start of the email body
+        sendCommand(writer, "blablabla");
+
+        // Send the end of email marker
+        sendCommand(writer, ".");
+        // Read and print the response
+        System.out.println("Server: " + reader.readLine());
+
+        // Send QUIT command
+        sendCommand(writer, "QUIT");
+        // Read and print the response
+        System.out.println("Server: " + reader.readLine());
+        // End
+        socket.close();
+        writer.close();
+        reader.close();
+        System.out.println("Done !\r\n");
+    }
+
+    // Error handling : Close everything that was initialised
+        catch (IOException ex) {
             System.out.println( "ERROR : " + ex);
         } finally {
             try {
@@ -82,5 +93,10 @@ public class SmtpClient {
                 System.out.println( "ERROR : " + ex);
             }
         }
+    }
+    private static void sendCommand(BufferedWriter writer, String command) throws IOException {
+        System.out.println("Sent to server: " + command);
+        writer.write(command + "\r\n");
+        writer.flush();
     }
 }
