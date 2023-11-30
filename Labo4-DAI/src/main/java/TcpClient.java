@@ -1,8 +1,7 @@
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class TcpClient {
     public static void main(String[] args) {
 
         //String victimsFileName = args[0];
