@@ -21,8 +21,11 @@ public class CsvReader {
                         System.out.println(value);
                         throw new RuntimeException("Invalid email address");
                     }
+                    else{
+                        victims.add(value);
+                    }
                 }
-                victims.addAll(Arrays.asList(values));
+                //victims.addAll(Arrays.asList(values));
             }
         } catch (Exception e) {
             System.out.println(e);
