@@ -1,5 +1,4 @@
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TcpClient {
@@ -13,7 +12,7 @@ public class TcpClient {
         int groupsAmount = Integer.parseInt(args[2]);
 
         //read victims, messages and put victims in List<String>
-        List<String> addresses = csvReaderVirgule.readVictim(new File(victimsFilePath));
+        List<String> addresses = csvReaderVirgule.readVictims(new File(victimsFilePath));
         List<String>[] messages = csvReaderPtVirgule.readMessage(new File(messagesFileName));
         List<List<String>> groups = GroupMaker.group(addresses, groupsAmount);
 
