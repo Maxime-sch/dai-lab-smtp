@@ -1,8 +1,8 @@
-# DAI - Lab 4 - Design #
+# DAI - Lab 4 - SMTP: Design #
 
-## Project parts ##
-### Main ###
-Gets 2 csv files and 1 int as parameters, which are:\
+## Project components ##
+### TcpClient (main) ###
+The main method gets 2 csv files and 1 int as parameters, which are:\
 -Victims list\
 -Messages list\
 -Number of groups\
@@ -12,12 +12,10 @@ For each group, the program selects one of the e-mail messages.\
 The respective messages are then sent to the different groups using the SMTP protocol.\
 
 ### CSVReader ###
-
 #### VictimsReader ####
-Provides a method to parse a csv file and return an array of email addresses and to handle invalid inputs.
-
+Provides a method to parse a csv file and return an List of email addresses and to handle invalid inputs.
 #### MessagesListReader ####
-Provides a method to parse a csv file and return an array of subjects and an array of bodies for the prank e-mails to
+Provides a method to parse a csv file and return an List of subjects and an List of bodies for the prank e-mails to
 send as well as handle invalid inputs.
 
 ### GroupMaker ###
