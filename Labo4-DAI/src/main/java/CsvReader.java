@@ -106,7 +106,7 @@ public class CsvReader {
      * @param file to check the extension of
      * @return the extension as a string
      */
-    public String getExtension(File file) {
+    public static String getExtension(File file) {
         String fileName = file.getName();
 
         int extensionIndex = fileName.lastIndexOf('.');
@@ -122,7 +122,7 @@ public class CsvReader {
      * @param file to check
      * @throws RuntimeException if the file is not csv
      */
-    public void checkCsv(File file){
+    public static void checkCsv(File file){
         String fileExtension = getExtension(file);
         if(!fileExtension.equals("csv")){
             throw new RuntimeException(fileExtension + " is not a valid file type for this program," +
