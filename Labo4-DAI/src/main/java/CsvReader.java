@@ -91,19 +91,13 @@ public class CsvReader {
     /**
      * Method to check if an email address is valid
      * @param email String to check whether it corresponds to a valid email address
-     * @return yes if it is valid, no otherwise
+     * @return true if it is valid, false otherwise
      */
     public static boolean isValidEmail(String email) {
-        // Expression régulière pour valider un email
+        // Regex to validate an email
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
-        // Créer le modèle de l'expression régulière
         Pattern pattern = Pattern.compile(emailRegex);
-
-        // Créer le correspondant de l'expression régulière
         Matcher matcher = pattern.matcher(email);
-
-        // Retourner true si l'email est valide, sinon false
         return matcher.matches();
     }
 
