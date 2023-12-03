@@ -25,6 +25,7 @@ If you want to send emails to real SMTP servers, edit the SERVER_ADDRESS and DOM
 Then, compile and run our project, e.g. using: \
 javac [filePath of TcpClient.java on your machine]  \
 java TcpClient [your victims file path] [your messages file path] [your number of groups] \
+We provide you with example csv files for victims and messages in Labo4-DAI/src/main/Files \
 This will send the e-mails and the SMTP requests from the application and answers from the server
 should be displayed in your terminal. \
 If you are using maildev, the emails should be displayed in the browser page mentioned in section 2.
