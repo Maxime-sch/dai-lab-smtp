@@ -25,6 +25,9 @@ public class TcpClient {
         String victimsFilePath = args[0];
         String messagesFileName = args[1];
         int groupsAmount = Integer.parseInt(args[2]);
+        if(groupsAmount <= 0){
+            throw new RuntimeException(groupsAmount + " is not a valid number of groups.");
+        }
 
         //read victims, messages and put victims in List<String>
         List<String> addresses = csvReaderVirgule.readVictims(new File(victimsFilePath));

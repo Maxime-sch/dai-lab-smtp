@@ -35,8 +35,6 @@ public class SmtpClient {
         writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), CHARSET));
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), CHARSET));
 
-        String toAddress = recipients.get(0);
-
         // Read the server's welcome message
         System.out.println("Server: " + reader.readLine());
 
@@ -49,7 +47,9 @@ public class SmtpClient {
         System.out.println("Server: " + reader.readLine());
 
         // Send RCPT TO command and read/display server answer
-        sendCommand(writer, "RCPT TO:<" + toAddress + ">");
+        for(int i = 0; i < recipients.size(); ++i){
+            sendCommand(writer, "RCPT TO:<" + recipients.get(i) + ">");
+        }
         System.out.println("Server: " + reader.readLine());
 
         // Send DATA command and read/display server answer
@@ -58,7 +58,9 @@ public class SmtpClient {
 
         // Send the email content
         sendCommand(writer, "From: <" + displayedSendingAddress + ">");
-        sendCommand(writer, "To: <" + toAddress + ">");
+        for(int i = 0; i < recipients.size(); ++i){
+            sendCommand(writer, "To: <" + recipients.get(i) + ">");
+        }
         sendCommand(writer, "Date: April 1st, 2023");
         sendCommand(writer, "Subject: " + subject);
         sendCommand(writer, ""); // Empty line indicates the start of the email body
