@@ -14,7 +14,7 @@ public class GroupMaker {
      * @return a List of Lists, each second-level list being a group of email addresses
      * @throws RuntimeException if there are too many or too little addresses to have a group size <5 and >2
      */
-    static List<List<String>> group(List<String> addresses, int n){
+    public static List<List<String>> group(List<String> addresses, int n){
         float totalAddresses = addresses.size();
         float avgGrpSize = totalAddresses / (float) (n);
         if(avgGrpSize < 2){
