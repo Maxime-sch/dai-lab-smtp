@@ -21,7 +21,7 @@ public class GroupMaker {
             throw new RuntimeException("There are too many groups to put at least 2 addresses per group");
         }
         else if(avgGrpSize > 5){
-            throw new RuntimeException("There are too few groups to put at least 2 addresses per group");
+            throw new RuntimeException("There are too few groups to put at most 5 addresses per group");
         }
 
         List<List<String>> result = new ArrayList<>();

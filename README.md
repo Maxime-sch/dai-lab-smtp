@@ -22,9 +22,11 @@ You can then access maildev's user interface by visiting http://localhost:1080/ 
 To use our application, start by cloning this repository, e.g. using \
 git clone https://github.com/Maxime-sch/dai-lab-smtp \
 If you want to send emails to real SMTP servers, edit the SERVER_ADDRESS and DOMAIN variables in SmtpClient.java. 
-Then, compile and run our project, e.g. using: \
-javac [filePath of TcpClient.java on your machine]  \
-java TcpClient [your victims file path] [your messages file path] [your number of groups] \
+Then, compile and run our project, e.g. by: 
+1. Compiling your java file: javac [filePath of TcpClient.java on your machine]  
+2. Executing the generated .class file: java TcpClient [your victims file path] [your messages file path] [your number of groups] 
+
+Please note that the application must be compiled and run using java 21. \
 We provide you with example csv files for victims and messages in Labo4-DAI/src/main/Files \
 This will send the e-mails and the SMTP requests from the application and answers from the server
 should be displayed in your terminal. \
