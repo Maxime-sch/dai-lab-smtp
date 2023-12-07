@@ -23,8 +23,9 @@ To use our application, start by cloning this repository, e.g. using \
 git clone https://github.com/Maxime-sch/dai-lab-smtp \
 If you want to send emails to real SMTP servers, edit the SERVER_ADDRESS and DOMAIN variables in SmtpClient.java. 
 Then, compile and run our project, e.g. by: 
-1. Compiling your java file: javac [filePath of TcpClient.java on your machine]  
-2. Executing the generated .class file: java TcpClient [your victims file path] [your messages file path] [your number of groups] 
+1. Switching to your local folder where your TcpClient.java is located (e.g. cd "C:\Users\user\dai-lab-smtp\Labo4-DAI\src\main\java")
+2. Compiling your java file: javac TcpClient.java  
+3. Executing the generated .class file: java TcpClient [your victims file path] [your messages file path] [your number of groups] 
 
 Please note that the application must be compiled and run using java 21. \
 We provide you with example csv files for victims and messages in Labo4-DAI/src/main/Files \
